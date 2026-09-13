@@ -11,5 +11,6 @@
 
 ## 발행본
 
+- [2026-09-14 · 경제·시사 브리핑 테스트판](https://aihubos.github.io/kira-chan/2026-09-14/economy/)
 - [2026-09-14 · 숫자·근거 상세판](https://aihubos.github.io/kira-chan/2026-09-14/)
 - [2026-09-13](https://aihubos.github.io/kira-chan/2026-09-13/)
