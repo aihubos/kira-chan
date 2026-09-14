@@ -17,7 +17,8 @@ const server = require('node:http').createServer((req, res) => {
   let browser;
   try {
     browser = await chromium.launch({headless:true});
-    for (const file of ['index.html','2026-09-13/index.html','2026-09-14/index.html','2026-09-14/economy/index.html']) {
+    const pages=process.argv.slice(2).length?process.argv.slice(2):['index.html','2026-09-13/index.html','2026-09-14/index.html','2026-09-14/economy/index.html'];
+    for (const file of pages) {
       for (const [width,height] of [[390,844],[320,568],[844,390],[1440,900]]) {
         const page = await browser.newPage({viewport:{width,height}});
         const errors = []; page.on('pageerror', e => errors.push(e.message));
@@ -46,6 +47,6 @@ const server = require('node:http').createServer((req, res) => {
         await page.close();
       }
     }
-    console.log('PASS: 4 pages × 4 viewports; no page scroll, navigation, text panel and share dialog');
+    console.log(`PASS: ${pages.length} pages × 4 viewports; no page scroll, navigation, text panel and share dialog`);
   } finally { if(browser) await browser.close(); server.close(); }
 })().catch(e => { console.error(e); process.exitCode=1; });
