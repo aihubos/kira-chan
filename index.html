@@ -65,4 +65,4 @@ extras.append(summary,threadsOnly);reader.after(extras);
 const accordionStyle=document.createElement('style');accordionStyle.textContent=`
 header{height:76px;flex-direction:column;justify-content:center;gap:5px;text-align:center}header strong{font-size:20px;letter-spacing:-.04em}header span{font-size:12px;letter-spacing:0}.reader{height:calc(100svh - 76px)}#extras{background:#f5f6f8;padding-bottom:90px}#extras>summary{cursor:pointer;list-style:none;padding:24px 76px 24px 24px;text-align:center;color:#6b7684;font-size:14px;font-weight:600;border-top:1px solid #e5e8eb}#extras>summary::-webkit-details-marker{display:none}#extras>summary::after{content:' ＋';color:#3182f6}#extras[open]>summary::after{content:' −'}#extras>summary:focus-visible{outline:3px solid #3182f6;outline-offset:-4px}#extras main{padding-bottom:24px}@media(max-width:760px){header strong{font-size:17px}header span{font-size:11px}#extras>summary{font-size:12px;text-align:left;padding-left:20px}}
 `;document.head.append(accordionStyle);
-</script></body></html>
+</script><link rel="stylesheet" href="reader.css?v=20260914-fit"></body></html>

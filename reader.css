@@ -1,0 +1,29 @@
+/* One viewport for every edition; only opened text/share panels scroll. */
+html { height: 100%; overflow: hidden; overscroll-behavior: none; }
+body { height: 100vh; height: 100dvh; overflow: hidden; overscroll-behavior: none; display: flex; flex-direction: column; }
+body > header { flex: 0 0 auto; height: auto; min-height: 60px; padding: calc(8px + env(safe-area-inset-top)) 12px 8px; }
+body > header strong { font-size: clamp(13px, 3.8vw, 20px); }
+body > .reader { flex: 1 1 0; height: auto; min-height: 0; max-height: none; width: 100%; padding: 4px 0 0; margin: 0; background: #fff; }
+.slides { touch-action: pinch-zoom; }
+.readerbar { flex: 0 0 auto; padding: 4px 76px; gap: 16px; }
+.readerhint { display: none; }
+#extras { flex: 0 0 auto; padding: 0 0 env(safe-area-inset-bottom); background: #fff; z-index: 9; }
+#extras > summary { padding: 10px 78px 10px 14px; min-height: 44px; font-size: 12px; text-align: center; color: #191f28; }
+#extras[open] { position: fixed; inset: auto 0 0; max-height: 78vh; max-height: 78dvh; overflow: auto; overscroll-behavior: contain; border-radius: 24px 24px 0 0; box-shadow: 0 -12px 60px #191f2826; }
+#extras[open] > summary { position: sticky; top: 0; z-index: 1; background: #fff; }
+#extras main { padding: 12px 18px 80px; width: 100%; }
+#threads { margin: 0; }
+#threads h2 { font-size: 22px; margin: 10px 0; }
+#threads .copybox { padding: 16px; }
+#caption { min-height: 180px; height: 30vh; height: 30dvh; resize: none; }
+#threads .actions { margin: 12px 0; }
+.kakao-float { right: max(12px, env(safe-area-inset-right)); bottom: calc(12px + env(safe-area-inset-bottom)); width: 52px; height: 52px; padding: 12px; border-radius: 50%; }
+.kakao-float span { display: none; }
+.share-sheet { max-height: calc(100vh - 24px); max-height: calc(100dvh - 24px); overflow: auto; overscroll-behavior: contain; }
+@media (max-height: 480px) {
+  body > header { min-height: 0; padding-top: env(safe-area-inset-top); padding-bottom: 2px; gap: 0; }
+  body > header strong { font-size: 13px; }
+  body > header span { font-size: 10px; }
+  .readerbar { padding-top: 0; padding-bottom: 0; }
+  #extras > summary { padding-top: 8px; padding-bottom: 8px; }
+}
