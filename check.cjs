@@ -5,7 +5,7 @@ const html = fs.readFileSync(`${__dirname}/${page}`, 'utf8');
 const date = html.match(/const date='(\d{4}-\d{2}-\d{2})'/)[1];
 new vm.Script(html.match(/<script>([\s\S]*?)<\/script>/)[1]);
 const economy = page.includes('/economy/');
-const editionPath = economy ? '/economy' + (html.includes('/economy/white/') ? '/white' : '') : '';
+const editionPath = (economy ? '/economy' : '') + (html.includes('/reissue-final/') ? '/reissue-final' : (html.includes('/economy/white/') ? '/white' : ''));
 for (let i = 1; i <= 10; i++) assert(fs.existsSync(`${__dirname}/assets/${date}${editionPath}/${date}_${economy?'경제시사_':''}카드뉴스_${String(i).padStart(2,'0')}.png`));
 for (const feature of ['onpointerup', 'navigator.canShare({files})', 't.me/share/url', 'ArrowRight', '카카오톡 나에게 보내기']) assert(html.includes(feature));
 const context = { now: 1000, performance: { now: () => context.now }, document: { querySelector: () => ({}) }, track: { style: {}, children: [] }, names: Array(10) };
