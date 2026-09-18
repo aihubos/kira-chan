@@ -16,26 +16,19 @@ document.body.append(bookmarkDialog);
 document.querySelector('#bookmark').onclick=()=>bookmarkDialog.showModal();
 let revision=0;
 document.querySelectorAll('.edition').forEach(section=>{const link=section.querySelector('a'),img=section.querySelector('.preview');link.setAttribute('aria-label',section.querySelector('h2').textContent+' 카드뉴스 10장 열기');link.replaceChildren(img);section.append(link);});
-async function refresh(){
+function refresh(){
  const run=++revision,date=new Intl.DateTimeFormat('sv-SE',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
  document.querySelector('#today').textContent=date.replaceAll('-','. ')+' · 매일 만나는 두 가지 브리핑';
- await Promise.all(['economy','ai'].map(async edition=>{
+ ['economy','ai'].forEach(edition=>{
   const section=document.getElementById(edition),link=section.querySelector('a'),img=section.querySelector('img'),status=section.querySelector('.status'),symbol=section.querySelector('.symbol');
-  link.hidden=true;img.hidden=true;symbol.hidden=false;status.textContent='오늘 발행본 확인 중…';
+  link.hidden=false;img.hidden=false;symbol.hidden=true;status.textContent='이미지 불러오는 중…';
   const path=date+(edition==='economy'?'/economy/':'/');
-  try{
-   const r=await fetch(path+'index.html',{cache:'no-store',signal:AbortSignal.timeout(15000)});
-   if(run!==revision)return;
-   if(r.status===404){status.textContent='오늘의 브리핑 준비 중 · '+('오전 6시')+' 발송 목표';return;}
-   if(!r.ok)throw Error();
-   const html=await r.text();if(run!==revision)return;
-   if(!html.includes("const date='"+date+"'"))throw Error();
-   link.href=path;link.hidden=false;status.textContent='오늘 발행 · 카드뉴스 10장';
-   img.onload=()=>{if(run===revision){img.hidden=false;symbol.hidden=true;}};
-   img.onerror=()=>{if(run===revision){img.hidden=true;symbol.hidden=false;}};
+   link.href=path;
+   img.onload=()=>{if(run===revision){img.hidden=false;symbol.hidden=true;status.textContent='오늘 발행 · 카드뉴스 10장';}};
+   img.onerror=()=>{if(run===revision){link.hidden=true;img.hidden=true;symbol.hidden=false;status.textContent='발행 준비 중이거나 연결이 불안정해요. ↻ 다시 확인';}};
    img.src='assets/'+date+'/'+(edition==='economy'?'economy/':'')+encodeURIComponent(date+(edition==='economy'?'_경제시사':'')+'_카드뉴스_01.png');
-  }catch{if(run===revision)status.textContent='확인하지 못했어요. ↻ 버튼으로 다시 확인해 주세요.';}
- }));
+   if(img.complete&&img.naturalWidth>0)img.onload();
+ });
 }
 document.querySelector('#refresh').onclick=refresh;
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)refresh();});
